@@ -1,5 +1,11 @@
+import os
 import logging
 import requests
+from dotenv import load_dotenv  # <--- IMPORT THIS
+
+# --- 0. LOAD SECRETS ---
+load_dotenv()  # <--- THIS FINDS AND READS THE .env FILE
+
 from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
@@ -11,16 +17,23 @@ from telegram.ext import (
 )
 
 # --- 1. CONFIGURATION ---
-TELEGRAM_BOT_TOKEN = "8074588063:AAEDmnnUnFNGhVkdtOOQvy7ZbSamsJTGpnI" 
+# Now we fetch from the .env file. If the file is missing, these will be None.
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 # --- OFFICIAL MEKONGSMS CREDENTIALS ---
-# Note: postsms.aspx is for POST requests
 API_URL = "https://sandbox.mekongsms.com/api/postsms.aspx"
-API_USERNAME = "vireak_support1@apitest"
-API_PASSWORD = "98dbd835838cd7dfe49193532c77deeb"
+API_USERNAME = os.getenv("API_USERNAME")
+API_PASSWORD = os.getenv("API_PASSWORD")
+
+# These are not secrets, so they can stay here (or move to .env if you prefer)
 API_SENDER = "MKN UAT"
 API_CD_VALUE = "Test001"
 API_INT_VALUE = "1" 
+
+# Check if keys loaded correctly (Optional Debugging)
+if not API_USERNAME or not API_PASSWORD:
+    print("❌ ERROR: Could not find .env file or variables are missing!")
+    exit() # Stop the bot if no passwords found
 
 # Conversation States
 PHONE, SMS_CONTENT = range(2)
