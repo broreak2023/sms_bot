@@ -1,10 +1,6 @@
 import os
 import logging
 import requests
-from dotenv import load_dotenv  # <--- IMPORT THIS
-
-# --- 0. LOAD SECRETS ---
-load_dotenv()  # <--- THIS FINDS AND READS THE .env FILE
 
 from telegram import Update
 from telegram.ext import (
